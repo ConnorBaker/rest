@@ -1,0 +1,81 @@
+name: Cabal CI Helper
+
+on:
+  workflow_call:
+    inputs:
+      os-name:
+        description: "The OS to run the workflow on."
+        required: true
+        type: string
+    secrets:
+      REPO_AUTH_TOKEN:
+        description: "The GitHub repo auth token."
+        required: true
+
+jobs:
+  build-test:
+    runs-on: ${{ inputs.os-name }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      # Setup
+      - uses: actions/checkout@v3
+      - name: Cache ~/.cabal/packages, ~/.cabal/store and dist-newstyle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cabal/packages
+            ~/.cabal/store
+            dist-newstyle
+          key: ${{ runner.arch }}-${{ runner.os }}-ghc8107-${{ hashFiles('**/*.cabal', '**/cabal.project', '**/cabal.project.freeze') }}
+          restore-keys: ${{ runner.arch }}-${{ runner.os }}-ghc8107-
+      - name: Set up nix
+        uses: ./.github/actions/setup
+        with:
+          REPO_AUTH_TOKEN: ${{ secrets.REPO_AUTH_TOKEN }}
+      - name: Set repeat commands and useful info as environment variables
+        run: |
+          echo "CABAL_CMD=nix develop --print-build-logs --accept-flake-config --command cabal --verbose" >> $GITHUB_ENV
+          
+          CURRENT_SYSTEM=$(nix eval --impure --raw --expr 'builtins.currentSystem')
+          echo "CURRENT_SYSTEM=$CURRENT_SYSTEM" >> $GITHUB_ENV
+
+          CURRENT_ARCH=$(echo $CURRENT_SYSTEM | cut -d- -f1)
+          echo "CURRENT_ARCH=$CURRENT_ARCH" >> $GITHUB_ENV
+
+          CURRENT_OS=$(echo $CURRENT_SYSTEM | cut -d- -f2)
+          echo "CURRENT_OS=$CURRENT_OS" >> $GITHUB_ENV
+
+          Z3_TAG=$(nix flake metadata --json | jq -r .locks.nodes.z3Source.original.ref)
+          echo "Z3_TAG=$Z3_TAG" >> $GITHUB_ENV
+
+          echo "BASE_REPORT_FILENAME=$CURRENT_ARCH-$CURRENT_OS-$Z3_TAG-rest-rewrite-test" >> $GITHUB_ENV
+
+      - name: Update cabal cache
+        run: $CABAL_CMD update
+      - name: Build library rest-rewrite
+        run: $CABAL_CMD build rest-rewrite
+      - name: Build tests rest-rewrite-test
+        run: $CABAL_CMD build rest-rewrite-test
+      - name: Run test suite rest-rewrite-test
+        run: |
+          $CABAL_CMD run rest-rewrite-test -- \
+          --json-path $BASE_REPORT_FILENAME.json \
+          --meta arch=$CURRENT_ARCH,os=$CURRENT_OS,z3=$Z3_TAG,commit=${{ github.sha }},timestamp="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+      # Report generation and artifact upload
+      # TODO: Commented out until new version is added to GitHub Actions to handle change of format.
+      # - uses: ConnorBaker/tasty-json-to-markdown-action@v2.0.6
+      #   if: always()
+      #   with:
+      #     tasty_json_filepath: $JSON_RESULTS_FILENAME
+      #     markdown_filepath: $MARKDOWN_RESULTS_FILENAME
+      # Report
+      # The names of the files generated in the previous step are unique, so we can have all jobs upload to the same artifact
+      # without worrying about overwriting each other.
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results
+          path: ${{ env.BASE_REPORT_FILENAME }}.*
+          if-no-files-found: error

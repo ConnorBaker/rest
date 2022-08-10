@@ -1,5 +1,5 @@
-graphs/*
+.DS_Store
 .stack-work
 dist-newstyle
-.DS_Store
 *.tar.gz
+result

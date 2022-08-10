@@ -1,0 +1,132 @@
+name: Nix CI Helper
+
+on:
+  workflow_call:
+    inputs:
+      os-name:
+        description: "The OS to run the workflow on."
+        required: true
+        type: string
+      z3-tags:
+        description: "A JSON list of the release tags of Z3 to use."
+        required: false
+        type: string
+        default: "[]"
+    secrets:
+      REPO_AUTH_TOKEN:
+        description: "The GitHub repo auth token."
+        required: true
+      CACHIX_AUTH_TOKEN:
+        description: "The Cachix auth token."
+        required: true
+
+jobs:
+  develop:
+    # Run only on the latest version of Z3.
+    # Have build require this job to complete gives us the chance to
+    # cache a build of GHC that the matrix build job will then use.
+    runs-on: ${{ inputs.os-name }}
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      z3-tags: ${{ steps.set-z3-tags.outputs.z3-tags }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up nix
+        uses: ./.github/actions/setup
+        with:
+          REPO_AUTH_TOKEN: ${{ secrets.REPO_AUTH_TOKEN }}
+      - uses: cachix/cachix-action@v10
+        with:
+          name: haskell-library-rest-rewrite
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Build development environment
+        run: nix develop --print-build-logs --accept-flake-config --profile dev-profile
+      - name: Cache development environment
+        run: cachix push --omit-deriver --compression-level 9 haskell-library-rest-rewrite ./dev-profile
+      - name: Set Z3 tags
+        id: set-z3-tags
+        run: |
+          if [[ '[]' == '${{ inputs.z3-tags }}' ]]; then
+            json=$(jq < ./nix/sources/z3-commit-to-tag.json -c '[.[]]')
+          else
+            json='${{ inputs.z3-tags }}'
+          fi
+          echo "::set-output name=z3-tags::$json"
+
+  build-test:
+    needs: develop
+    strategy:
+      fail-fast: false
+      matrix:
+        z3-tag: ${{ fromJSON(needs.develop.outputs.z3-tags) }}
+    runs-on: ${{ inputs.os-name }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      # Setup
+      - uses: actions/checkout@v3
+      - name: Set up nix
+        uses: ./.github/actions/setup
+        with:
+          REPO_AUTH_TOKEN: ${{ secrets.REPO_AUTH_TOKEN }}
+      - uses: cachix/cachix-action@v10
+        with:
+          name: haskell-library-rest-rewrite
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Set repeat commands as environment variables
+        run: |
+          echo "NIX_BUILD_CMD=nix build \
+          --print-build-logs \
+          --accept-flake-config \
+          --override-input z3Source github:Z3Prover/z3/${{ matrix.z3-tag }}" >> $GITHUB_ENV
+
+          echo "NIX_CACHE_CMD=cachix --verbose push --omit-deriver --compression-level 9 haskell-library-rest-rewrite ./result" >> $GITHUB_ENV
+
+          CURRENT_SYSTEM=$(nix eval --impure --raw --expr 'builtins.currentSystem')
+          echo "CURRENT_SYSTEM=$CURRENT_SYSTEM" >> $GITHUB_ENV
+
+          CURRENT_ARCH=$(echo $CURRENT_SYSTEM | cut -d- -f1)
+          echo "CURRENT_ARCH=$CURRENT_ARCH" >> $GITHUB_ENV
+
+          CURRENT_OS=$(echo $CURRENT_SYSTEM | cut -d- -f2)
+          echo "CURRENT_OS=$CURRENT_OS" >> $GITHUB_ENV
+
+          echo "BASE_REPORT_FILENAME=$CURRENT_ARCH-$CURRENT_OS-${{ matrix.z3-tag }}-rest-rewrite-test" >> $GITHUB_ENV
+
+      # Build
+      - name: Build library rest-rewrite
+        run: $NIX_BUILD_CMD .#rest-rewrite
+      - name: Cache library rest-rewrite
+        run: $NIX_CACHE_CMD
+      - name: Build tests rest-rewrite-test
+        run: $NIX_BUILD_CMD .#rest-rewrite-test
+      - name: Cache test library rest-rewrite-test
+        run: $NIX_CACHE_CMD
+
+      # Test
+      - name: Run test suite rest-rewrite-test
+        run: |
+          nix --accept-flake-config --verbose run \
+          --override-input z3Source github:Z3Prover/z3/${{ matrix.z3-tag }} \
+          .#rest-rewrite-test -- \
+          --json-path $BASE_REPORT_FILENAME.json \
+          --meta arch=$CURRENT_ARCH,os=$CURRENT_OS,z3=${{ matrix.z3-tag }},commit=${{ github.sha }},timestamp="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+      # Report generation and artifact upload
+      # TODO: Commented out until new version is added to GitHub Actions to handle change of format.
+      # - uses: ConnorBaker/tasty-json-to-markdown-action@v2.0.6
+      #   if: always()
+      #   with:
+      #     tasty_json_filepath: $JSON_RESULTS_FILENAME
+      #     markdown_filepath: $MARKDOWN_RESULTS_FILENAME
+      # Report
+      # The names of the files generated in the previous step are unique, so we can have all jobs upload to the same artifact
+      # without worrying about overwriting each other.
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results
+          path: ${{ env.BASE_REPORT_FILENAME }}.*
+          if-no-files-found: error

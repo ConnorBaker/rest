@@ -1,0 +1,3 @@
+(X + Y) + V → X + (Y + V)
+X + (Y + V) → (X + Y) + V
+X + Y → Y + X

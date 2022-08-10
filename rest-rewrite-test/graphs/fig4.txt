@@ -1,0 +1,11 @@
+(X ∩ Y) ∪ Z → (X ∪ Z) ∩ (Y ∪ Z)
+(X ∪ Y) ∩ Z → (X ∩ Z) ∪ (Y ∩ Z)
+(X ∪ Y) ∪ Z → X ∪ (Y ∪ Z)
+X ∩ X → X
+X ∩ ∅ → ∅
+X ∪ (Y ∪ Z) → (X ∪ Y) ∪ Z
+X ∪ X → X
+X ∪ ∅ → X
+Z ∩ (X ∪ Y) → (Z ∩ X) ∪ (Z ∩ Y)
+Z ∪ (X ∩ Y) → (Z ∪ X) ∩ (Z ∪ Y)
+s₁ ∩ s₀ → ∅

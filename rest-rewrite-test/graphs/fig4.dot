@@ -1,0 +1,84 @@
+digraph Rest {
+	node1121269727832829637 [label="f((s₀ ∪ s₁) ∩ s₀)"
+style="solid"
+color="black"];
+	node2742953979162573206 [label="f(s₀)"
+style="solid"
+color="black"];
+	node3066300789287620975 [label="f(s₀ ∪ (s₁ ∩ s₀))"
+style="solid"
+color="black"];
+	node30663007892876209756234436450810996966 [label="f((s₀ ∪ s₁) ∩ (s₀ ∪ s₀))"
+style="dashed"
+color="red"];
+	node3244325813284305598 [label="f(s₀)"
+style="solid"
+color="black"];
+	node4678137509373372195 [label="f(s₀)"
+style="solid"
+color="black"];
+	node5423590975594836858 [label="f((s₀ ∩ s₀) ∪ (s₁ ∩ s₀))"
+style="solid"
+color="black"];
+	node54235909755948368584394825599664780927 [label="f((s₀ ∪ (s₁ ∩ s₀)) ∩ (s₀ ∪ (s₁ ∩ s₀)))"
+style="dashed"
+color="red"];
+	node54235909755948368588689827991476193426 [label="f(((s₀ ∩ s₀) ∪ s₁) ∩ ((s₀ ∩ s₀) ∪ s₀))"
+style="dashed"
+color="red"];
+	node5783572952307335634 [label="f((s₀ ∩ s₀) ∪ ∅)"
+style="solid"
+color="black"];
+	node57835729523073356344652996185144641063 [label="f((s₀ ∪ ∅) ∩ (s₀ ∪ ∅))"
+style="dashed"
+color="red"];
+	node6598971428545911609 [label="f(s₀ ∪ ∅)"
+style="solid"
+color="black"];
+	node6615261511106412191 [label="f(s₀ ∪ ∅)"
+style="solid"
+color="black"];
+	node8424463497840281486 [label="f(s₀ ∩ s₀)"
+style="solid"
+color="black"];
+
+	node1121269727832829637 -> node5423590975594836858 [label = <<font color ="red">(X ∪ Y) ∩ Z → (X ∩ Z) ∪ (Y ∩ Z)</font><br/>>
+color="darkgreen"
+style="solid"];
+	node3066300789287620975 -> node30663007892876209756234436450810996966 [label = <<br/> >
+color="red"
+style="dotted"];
+	node3066300789287620975 -> node6598971428545911609 [label = <<font color ="red">s₁ ∩ s₀ → ∅</font><br/>>
+color="darkgreen"
+style="solid"];
+	node5423590975594836858 -> node3066300789287620975 [label = <<font color ="red">X ∩ X → X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node5423590975594836858 -> node54235909755948368584394825599664780927 [label = <<br/> >
+color="red"
+style="dotted"];
+	node5423590975594836858 -> node54235909755948368588689827991476193426 [label = <<br/> >
+color="red"
+style="dotted"];
+	node5423590975594836858 -> node5783572952307335634 [label = <<font color ="red">s₁ ∩ s₀ → ∅</font><br/>>
+color="darkgreen"
+style="solid"];
+	node5783572952307335634 -> node57835729523073356344652996185144641063 [label = <<br/> >
+color="red"
+style="dotted"];
+	node5783572952307335634 -> node6615261511106412191 [label = <<font color ="red">X ∩ X → X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node5783572952307335634 -> node8424463497840281486 [label = <<font color ="red">X ∪ ∅ → X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node6598971428545911609 -> node2742953979162573206 [label = <<font color ="red">X ∪ ∅ → X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node6615261511106412191 -> node3244325813284305598 [label = <<font color ="red">X ∪ ∅ → X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node8424463497840281486 -> node4678137509373372195 [label = <<font color ="red">X ∩ X → X</font><br/>>
+color="darkgreen"
+style="solid"];
+}

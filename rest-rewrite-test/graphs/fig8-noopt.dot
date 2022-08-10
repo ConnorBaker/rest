@@ -1,0 +1,168 @@
+digraph Rest {
+	node1242606165668936730 [label="(a + a) + b"
+style="solid"
+color="black"];
+	node1275456434821402129 [label="a + (a + b)"
+style="solid"
+color="black"];
+	node1445171289116647300 [label="(b + a) + a"
+style="solid"
+color="black"];
+	node1598579004064440205 [label="a + (a + b)"
+style="solid"
+color="black"];
+	node1619802157627953932 [label="(a + b) + a"
+style="solid"
+color="black"];
+	node1965856476122958072 [label="(a + a) + b"
+style="solid"
+color="black"];
+	node1992768565505797918 [label="(a + a) + b"
+style="solid"
+color="black"];
+	node275780433167488796 [label="b + (a + a)"
+style="solid"
+color="black"];
+	node2914966799364983908 [label="a + (a + b)"
+style="solid"
+color="black"];
+	node3089680106155484926 [label="a + (a + b)"
+style="solid"
+color="black"];
+	node395452190856367902 [label="a + (b + a)"
+style="solid"
+color="black"];
+	node4057641492128129176 [label="b + (a + a)"
+style="solid"
+color="black"];
+	node424045563433635775 [label="(b + a) + a"
+style="solid"
+color="black"];
+	node4537995101002867458 [label="(b + a) + a"
+style="solid"
+color="black"];
+	node4547881533164663694 [label="b + (a + a)"
+style="solid"
+color="black"];
+	node4876705649941287596 [label="(a + a) + b"
+style="solid"
+color="black"];
+	node5711026612259959650 [label="(a + b) + a"
+style="solid"
+color="black"];
+	node5954123901811102656 [label="(a + a) + b"
+style="solid"
+color="black"];
+	node6075557271111968498 [label="(a + b) + a"
+style="solid"
+color="black"];
+	node6097195679637204944 [label="b + (a + a)"
+style="solid"
+color="black"];
+	node626422747542987476 [label="(a + a) + b"
+style="solid"
+color="black"];
+	node686945290978466860 [label="(a + b) + a"
+style="solid"
+color="black"];
+	node7094770986281926620 [label="(a + b) + a"
+style="solid"
+color="black"];
+	node7558324749595465086 [label="a + (a + b)"
+style="solid"
+color="black"];
+	node7615478634354157966 [label="(b + a) + a"
+style="solid"
+color="black"];
+	node8057792250043556267 [label="(b + a) + a"
+style="solid"
+color="black"];
+	node8509914973622482274 [label="b + (a + a)"
+style="solid"
+color="black"];
+	node8724399221421482484 [label="b + (a + a)"
+style="solid"
+color="black"];
+
+	node1242606165668936730 -> node8509914973622482274 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node1445171289116647300 -> node4547881533164663694 [label = <<font color ="red">(X + Y) + V → X + (Y + V)</font><br/>>
+color="darkgreen"
+style="solid"];
+	node1598579004064440205 -> node686945290978466860 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node1965856476122958072 -> node4057641492128129176 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node1992768565505797918 -> node1275456434821402129 [label = <<font color ="red">(X + Y) + V → X + (Y + V)</font><br/>>
+color="darkgreen"
+style="solid"];
+	node275780433167488796 -> node4876705649941287596 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node2914966799364983908 -> node1242606165668936730 [label = <<font color ="red">X + (Y + V) → (X + Y) + V</font><br/>>
+color="darkgreen"
+style="solid"];
+	node3089680106155484926 -> node6075557271111968498 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node3089680106155484926 -> node626422747542987476 [label = <<font color ="red">X + (Y + V) → (X + Y) + V</font><br/>>
+color="darkgreen"
+style="solid"];
+	node395452190856367902 -> node3089680106155484926 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node395452190856367902 -> node7094770986281926620 [label = <<font color ="red">X + (Y + V) → (X + Y) + V</font><br/>>
+color="darkgreen"
+style="solid"];
+	node395452190856367902 -> node7615478634354157966 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node4537995101002867458 -> node6097195679637204944 [label = <<font color ="red">(X + Y) + V → X + (Y + V)</font><br/>>
+color="darkgreen"
+style="solid"];
+	node4547881533164663694 -> node1992768565505797918 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node4876705649941287596 -> node1598579004064440205 [label = <<font color ="red">(X + Y) + V → X + (Y + V)</font><br/>>
+color="darkgreen"
+style="solid"];
+	node5711026612259959650 -> node7558324749595465086 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node6075557271111968498 -> node4537995101002867458 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node6097195679637204944 -> node5954123901811102656 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node626422747542987476 -> node8724399221421482484 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node7094770986281926620 -> node1445171289116647300 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node7094770986281926620 -> node2914966799364983908 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node7558324749595465086 -> node1965856476122958072 [label = <<font color ="red">X + (Y + V) → (X + Y) + V</font><br/>>
+color="darkgreen"
+style="solid"];
+	node7615478634354157966 -> node275780433167488796 [label = <<font color ="red">(X + Y) + V → X + (Y + V)</font><br/>>
+color="darkgreen"
+style="solid"];
+	node7615478634354157966 -> node5711026612259959650 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node8057792250043556267 -> node1619802157627953932 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node8509914973622482274 -> node424045563433635775 [label = <<font color ="red">X + (Y + V) → (X + Y) + V</font><br/>>
+color="darkgreen"
+style="solid"];
+	node8724399221421482484 -> node8057792250043556267 [label = <<font color ="red">X + (Y + V) → (X + Y) + V</font><br/>>
+color="darkgreen"
+style="solid"];
+}

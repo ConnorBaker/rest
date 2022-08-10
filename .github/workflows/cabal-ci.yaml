@@ -1,0 +1,20 @@
+name: Cabal CI
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  ubuntu-22_04:
+    name: ubuntu-22.04
+    uses: ./.github/workflows/cabal-ci-helper.yaml
+    with:
+      os-name: ubuntu-22.04
+    secrets: inherit
+
+  macos-12:
+    name: macos-12
+    uses: ./.github/workflows/cabal-ci-helper.yaml
+    with:
+      os-name: macos-12
+    secrets: inherit

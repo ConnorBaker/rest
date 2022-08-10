@@ -1,0 +1,78 @@
+cabal-version: 2.4
+name:          rest-rewrite-test
+version:       0.4.0
+license:       BSD-3-Clause
+license-file:  LICENSE
+maintainer:    Zack Grannan <zgrannan@cs.ubc.ca>
+author:        Zack Grannan <zgrannan@cs.ubc.ca>
+tested-with:   ghc ==8.10.7
+synopsis:      Rewriting library with online termination checking
+description:
+    REST is a Rewriting library with online termination checking. For more details see the paper at https://arxiv.org/abs/2202.05872.
+
+category:      Rewriting
+build-type:    Simple
+
+source-repository head
+    type:     git
+    location: git://github.com/zgrannan/rest.git
+    subdir:   rest-rewrite-test
+
+executable rest-rewrite-test
+    main-is:          Main.hs
+    hs-source-dirs:   .
+    other-modules:
+        Test.Orphan.BagExample
+        Test.Orphan.Compiler
+        Test.Orphan.Group
+        Test.Orphan.Lists
+        Test.Orphan.Multiset
+        Test.Orphan.NonTerm
+        Test.Orphan.WQODot
+        Test.Lib.Arith
+        Test.Lib.DSL
+        Test.Lib.Language.REST.ConcreteOC
+        Test.Lib.Language.REST.ProofGen
+        Test.Lib.Language.REST.RuntimeTermHelpers
+        Test.Lib.MultisetOrdering
+        Test.Lib.Nat
+        Test.Lib.Set
+        Test.Aeson.Options
+        Test.Aeson.Orphans
+        Test.Arithmetic
+        Test.Completion
+        Test.ExploredTerms
+        Test.KBO
+        Test.LazyOC
+        Test.LPO
+        Test.MultisetOrder
+        Test.OpOrdering
+        Test.PaperFigures
+        Test.Properties
+        Test.RPO
+        Test.SMT
+        Test.StrictOC
+        Test.Tasty.Runners.JsonReporter
+        Test.WQO
+
+    default-language: Haskell2010
+    ghc-options:      -Wall -Werror
+    build-depends:
+        aeson,
+        base,
+        bytestring,
+        containers,
+        hashable,
+        parsec,
+        mtl,
+        QuickCheck,
+        rest-rewrite,
+        stm,
+        tagged,
+        tasty,
+        tasty-golden,
+        tasty-hunit,
+        tasty-json,
+        tasty-quickcheck,
+        text,
+        unordered-containers

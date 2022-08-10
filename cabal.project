@@ -1,0 +1,5 @@
+packages:
+  ./rest-rewrite/rest-rewrite.cabal
+  ./rest-rewrite-test/rest-rewrite-test.cabal
+with-compiler: ghc-8.10.7
+jobs: $ncpus

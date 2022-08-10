@@ -1,0 +1,69 @@
+cabal-version: 2.4
+name:          rest-rewrite
+version:       0.4.0
+license:       BSD-3-Clause
+license-file:  LICENSE
+maintainer:    Zack Grannan <zgrannan@cs.ubc.ca>
+author:        Zack Grannan <zgrannan@cs.ubc.ca>
+tested-with:   ghc ==8.10.7
+synopsis:      Rewriting library with online termination checking
+description:
+    REST is a Rewriting library with online termination checking. For more details see the paper at https://arxiv.org/abs/2202.05872.
+
+category:      Rewriting
+build-type:    Simple
+
+source-repository head
+    type:     git
+    location: git://github.com/zgrannan/rest.git
+    subdir:   rest-rewrite
+
+library
+    exposed-modules:
+        Language.REST
+        Language.REST.Core
+        Language.REST.Dot
+        Language.REST.ExploredTerms
+        Language.REST.Internal.EquivalenceClass
+        Language.REST.Internal.ListT
+        Language.REST.Internal.MultiSet
+        Language.REST.Internal.MultisetOrder
+        Language.REST.Internal.OpOrdering
+        Language.REST.Internal.Orphans
+        Language.REST.Internal.PartialOrder
+        Language.REST.Internal.Rewrite
+        Language.REST.Internal.Util
+        Language.REST.Internal.WorkStrategy
+        Language.REST.Internal.WQO
+        Language.REST.KBO
+        Language.REST.LPO
+        Language.REST.MetaTerm
+        Language.REST.OCAlgebra
+        Language.REST.OCToAbstract
+        Language.REST.Op
+        Language.REST.Path
+        Language.REST.RESTDot
+        Language.REST.RPO
+        Language.REST.Rest
+        Language.REST.RewriteRule
+        Language.REST.RuntimeTerm
+        Language.REST.SMT
+        Language.REST.Types
+        Language.REST.WQOConstraints
+        Language.REST.WQOConstraints.ADT
+        Language.REST.WQOConstraints.Lazy
+        Language.REST.WQOConstraints.Strict
+
+    hs-source-dirs:   .
+    default-language: Haskell2010
+    ghc-options:      -Wall -Werror
+    build-depends:
+        base,
+        containers,
+        hashable,
+        process,
+        mtl,
+        parsec,
+        process,
+        text,
+        unordered-containers

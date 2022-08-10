@@ -1,0 +1,36 @@
+digraph Rest {
+	node1965856476122958072 [label="(a + a) + b"
+style="solid"
+color="black"];
+	node395452190856367902 [label="a + (b + a)"
+style="solid"
+color="black"];
+	node4057641492128129176 [label="b + (a + a)"
+style="solid"
+color="black"];
+	node5711026612259959650 [label="(a + b) + a"
+style="solid"
+color="black"];
+	node7558324749595465086 [label="a + (a + b)"
+style="solid"
+color="black"];
+	node7615478634354157966 [label="(b + a) + a"
+style="solid"
+color="black"];
+
+	node1965856476122958072 -> node4057641492128129176 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node395452190856367902 -> node7615478634354157966 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node5711026612259959650 -> node7558324749595465086 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+	node7558324749595465086 -> node1965856476122958072 [label = <<font color ="red">X + (Y + V) → (X + Y) + V</font><br/>>
+color="darkgreen"
+style="solid"];
+	node7615478634354157966 -> node5711026612259959650 [label = <<font color ="red">X + Y → Y + X</font><br/>>
+color="darkgreen"
+style="solid"];
+}
